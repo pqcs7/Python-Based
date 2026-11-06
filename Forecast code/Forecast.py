@@ -1,3 +1,6 @@
+from pathlib import Path
+
+import gdown
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -327,5 +330,15 @@ def main(file_path):
 
 #--------------------------------------------
 if __name__ == "__main__":
-    file_path = "/content/drive/MyDrive/Διπλωματική ΕΑΠ Κιούσης/lab files/athens.csv"
-    results = main(file_path)
+    file_path = Path(__file__).with_name("athens.csv")
+    downloaded_path = gdown.download(
+        id="1jGSfgPkq_D144PdLDtfLVz7W6VXONWwu",
+        output=str(file_path),
+        quiet=False,
+    )
+    if downloaded_path is None:
+        raise RuntimeError(
+            "Could not download athens.csv. Check that the Google Drive file "
+            "is shared with anyone who has the link."
+        )
+    results = main(downloaded_path)
